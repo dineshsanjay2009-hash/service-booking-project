@@ -1,7 +1,12 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
+import os
+from dotenv import load_dotenv
 
-DATABASE_URL = "mysql+pymysql://root:dineshsanjay2009%40@localhost/servicehub"
+load_dotenv()
+
+# Use Railway PostgreSQL URL from environment
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 engine = create_engine(DATABASE_URL)
 
@@ -21,5 +26,3 @@ def get_db():
         yield db
     finally:
         db.close()
-
-
