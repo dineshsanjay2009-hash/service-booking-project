@@ -2,7 +2,10 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE_URL = os.getenv("postgresql://postgres:mDFNkJuEyBmOeOLfQLYMAxumWFhuVvJK@postgres.railway.internal:5432/railway")
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL is not set")
 
 engine = create_engine(
     DATABASE_URL,
@@ -18,7 +21,6 @@ SessionLocal = sessionmaker(
 Base = declarative_base()
 
 
-# Dependency
 def get_db():
     db = SessionLocal()
     try:
