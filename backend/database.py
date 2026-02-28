@@ -1,9 +1,13 @@
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE_URL = "mysql+pymysql://root:dineshsanjay2009%40@localhost/servicehub"
+DATABASE_URL = os.getenv("postgresql://postgres:mDFNkJuEyBmOeOLfQLYMAxumWFhuVvJK@postgres.railway.internal:5432/railway")
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(
+    DATABASE_URL,
+    pool_pre_ping=True
+)
 
 SessionLocal = sessionmaker(
     autocommit=False,
@@ -21,5 +25,3 @@ def get_db():
         yield db
     finally:
         db.close()
-
-
