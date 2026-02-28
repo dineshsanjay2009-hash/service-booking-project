@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -6,17 +6,27 @@ from database import Base
 class Booking(Base):
     __tablename__ = "bookings"
 
+    __table_args__ = (
+        UniqueConstraint(
+            "user_id",
+            "service_id",
+            "booking_date",
+            "booking_time",
+            name="unique_booking_constraint"
+        ),
+    )
+
     id = Column(Integer, primary_key=True, index=True)
 
-    # ✅ IMPORTANT: ForeignKey added
     user_id = Column(
         Integer,
         ForeignKey("users.id", ondelete="CASCADE"),
-        nullable=True
+        nullable=False
     )
 
     customer_name = Column(String(100), nullable=False)
     phone = Column(String(20), nullable=False)
+
     booking_date = Column(String(20), nullable=False)
     booking_time = Column(String(20), nullable=False)
 
@@ -28,8 +38,15 @@ class Booking(Base):
     package_name = Column(String(100), nullable=True)
     package_price = Column(Integer, nullable=True)
 
-    booking_type = Column(String(50), default="service")
-    status = Column(String(50), default="pending")
+    total_amount = Column(Integer, nullable=True)
 
-    # ✅ Relationship with User
+    booking_type = Column(String(50), default="service")
+
+    # 🔥 UPDATED STATUS DEFAULT
+    status = Column(String(50), default="pending_payment")
+
+    # 🔥 NEW FIELDS (Payment)
+    payment_id = Column(String(100), nullable=True)
+    payment_method = Column(String(50), nullable=True)
+
     user = relationship("User", back_populates="bookings")

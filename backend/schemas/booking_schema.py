@@ -1,10 +1,11 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, constr
+
 
 class BookingBase(BaseModel):
-    user_id: int   # ✅ compulsory
+    user_id: int
 
     customer_name: str
-    phone: str
+    phone: constr(pattern=r'^\d{10}$')
     booking_date: str
     booking_time: str
     service_type: str
@@ -14,9 +15,15 @@ class BookingBase(BaseModel):
     package_id: int | None = None
     package_name: str | None = None
     package_price: int | None = None
-    booking_type: str | None = "service"
 
-    status: str | None = "pending"
+    total_amount: int | None = None
+
+    booking_type: str | None = "service"
+    status: str | None = "pending_payment"
+
+    # 🔥 NEW FIELDS
+    payment_id: str | None = None
+    payment_method: str | None = None
 
 
 class BookingCreate(BookingBase):
@@ -25,7 +32,7 @@ class BookingCreate(BookingBase):
 
 class BookingUpdate(BaseModel):
     customer_name: str | None = None
-    phone: str | None = None
+    phone: constr(pattern=r'^\d{10}$') | None = None
     booking_date: str | None = None
     booking_time: str | None = None
     service_type: str | None = None
@@ -35,8 +42,14 @@ class BookingUpdate(BaseModel):
     package_id: int | None = None
     package_name: str | None = None
     package_price: int | None = None
+    total_amount: int | None = None
+
     booking_type: str | None = None
     status: str | None = None
+
+    # 🔥 NEW FIELDS
+    payment_id: str | None = None
+    payment_method: str | None = None
 
 
 class BookingOut(BookingBase):

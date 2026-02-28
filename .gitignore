@@ -1,0 +1,14 @@
+# Frontend
+frontend-admin/node_modules/
+frontend-user/node_modules/
+frontend-admin/dist/
+frontend-user/dist/
+
+# Backend
+backend/venv/
+backend/__pycache__/
+backend/.env
+
+# Common
+.env
+*.log

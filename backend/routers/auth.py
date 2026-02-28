@@ -10,9 +10,8 @@ from core.security import (
     create_access_token
 )
 
-# ✅ CHANGE THIS ONLY
 router = APIRouter(
-    prefix="/auth",   # 🔥 REMOVE /api FROM HERE
+    prefix="/auth",
     tags=["Auth"]
 )
 
@@ -20,6 +19,7 @@ router = APIRouter(
 @router.post("/register", status_code=status.HTTP_201_CREATED)
 def register_user(user: UserRegister, db: Session = Depends(get_db)):
 
+    # 🔍 Check existing email
     existing_user = db.query(User).filter(User.email == user.email).first()
     if existing_user:
         raise HTTPException(
@@ -27,9 +27,19 @@ def register_user(user: UserRegister, db: Session = Depends(get_db)):
             detail="Email already registered"
         )
 
+    # 🔍 Optional: prevent duplicate phone
+    existing_phone = db.query(User).filter(User.phone == user.phone).first()
+    if existing_phone:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Phone number already registered"
+        )
+
+    # ✅ Create new user (PHONE ADDED)
     new_user = User(
         name=user.name,
         email=user.email,
+        phone=user.phone,  # ✅ ADDED
         password=hash_password(user.password)
     )
 
@@ -60,6 +70,7 @@ def login_user(user: UserLogin, db: Session = Depends(get_db)):
             detail="Invalid email or password"
         )
 
+    # ✅ JWT TOKEN
     access_token = create_access_token(
         data={
             "sub": str(db_user.id),
@@ -67,10 +78,12 @@ def login_user(user: UserLogin, db: Session = Depends(get_db)):
         }
     )
 
+    # ✅ PHONE RETURN ADDED
     return {
         "access_token": access_token,
         "token_type": "bearer",
         "id": db_user.id,
         "email": db_user.email,
-        "name": db_user.name
+        "name": db_user.name,
+        "phone": db_user.phone   # ✅ ADDED
     }
