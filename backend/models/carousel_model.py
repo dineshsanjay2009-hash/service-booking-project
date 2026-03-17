@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from core.database import Base
+from database import Base   # ✅ IMPORTANT (core.database illa)
 
 class Carousel(Base):
     __tablename__ = "carousel"

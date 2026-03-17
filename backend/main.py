@@ -19,7 +19,6 @@ from routers import bike_services
 from routers import admin_auth
 from routers import payment  # Payment router
 from routers.carousel import router as carousel_router
-
 import models.user_model
 
 import models.bike_model
@@ -55,7 +54,6 @@ app.include_router(contact.router, prefix="/api")
 app.include_router(bookings.router, prefix="/api")
 app.include_router(dashboard.router, prefix="/api")
 app.include_router(carousel_router, prefix="/api")
-
 # ✅ Admin already has prefix="/api/admin"
 app.include_router(admin_auth.router)
 
