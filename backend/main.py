@@ -8,7 +8,7 @@ load_dotenv()
 from database import engine, Base
 
 from routers import auth
-from routers import carousel
+
 from routers import services
 from routers import packages
 from routers import achievements
@@ -20,7 +20,7 @@ from routers import admin_auth
 from routers import payment  # Payment router
 
 import models.user_model
-import models.carousel_model
+
 import models.bike_model
 import models.car_model
 import models.package_model
@@ -44,7 +44,7 @@ app.add_middleware(
 
 # These routers DON'T contain /api inside
 app.include_router(auth.router, prefix="/api")
-app.include_router(carousel.router, prefix="/api")
+
 app.include_router(services.router, prefix="/api")
 app.include_router(bike_services.router, prefix="/api")
 app.include_router(packages.router, prefix="/api")

@@ -15,6 +15,30 @@ from core.security import (
 router = APIRouter(prefix="/api/admin", tags=["Admin Auth"])
 
 
+# ===================== REGISTER ADMIN =====================
+
+@router.post("/register")
+def register_admin(
+    email: str,
+    password: str,
+    db: Session = Depends(get_db)
+):
+    existing_admin = db.query(Admin).filter(Admin.email == email).first()
+
+    if existing_admin:
+        raise HTTPException(status_code=400, detail="Admin already exists")
+
+    new_admin = Admin(
+        email=email,
+        password=hash_password(password)
+    )
+
+    db.add(new_admin)
+    db.commit()
+    db.refresh(new_admin)
+
+    return {"message": "Admin created successfully"}
+
 # ===================== LOGIN =====================
 
 @router.post("/login")
@@ -34,7 +58,7 @@ def admin_login(
 
     access_token = create_access_token(
         data={
-            "sub": admin.email,   # store email in token
+            "sub": admin.email,
             "role": "admin"
         }
     )
@@ -53,7 +77,6 @@ def change_password(
     db: Session = Depends(get_db),
     user=Depends(get_current_user)
 ):
-    # 🔥 extract email from token payload
     email = user.get("sub")
 
     admin = db.query(Admin).filter(Admin.email == email).first()
