@@ -34,12 +34,13 @@ app = FastAPI(title="ServiceHub Backend")
 # ✅ FIXED CORS (IMPORTANT)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # allow all
-    allow_credentials=True,  # 👈 THIS IS IMPORTANT
+    allow_origins=[
+        "https://service-booking-project.onrender.com"
+    ],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 # =============================
 # ROUTERS
 # =============================
