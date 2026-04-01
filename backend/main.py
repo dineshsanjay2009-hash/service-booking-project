@@ -64,4 +64,4 @@ app.include_router(payment.router, prefix="/api")
 def root():
     return {"message": "Backend running"}
 
-Base.metadata.create_all(bind=engine)
+#Base.metadata.create_all(bind=engine)
