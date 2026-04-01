@@ -5,7 +5,7 @@ import os
 
 load_dotenv()
 
-from database import engine, Base
+from database import Base
 
 from routers import auth
 
