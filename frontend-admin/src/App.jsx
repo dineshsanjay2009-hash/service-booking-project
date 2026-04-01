@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import AdminLayout from "./admin/AdminLayout";
 import Dashboard from "./admin/pages/Dashboard";
-import CarouselAdmin from "./admin/pages/CarouselAdmin";
+
 import Bookings from "./admin/pages/Bookings";
 import BikeServicesAdmin from "./admin/pages/BikeServicesAdmin";
 import CarServicesAdmin from "./admin/pages/CarServicesAdmin";
@@ -36,7 +36,7 @@ function App() {
           }
         >
           <Route index element={<Dashboard />} />
-          <Route path="carousel" element={<CarouselAdmin />} />
+          
           <Route path="bookings" element={<Bookings />} />
           <Route path="services/bike" element={<BikeServicesAdmin />} />
           <Route path="services/car" element={<CarServicesAdmin />} />

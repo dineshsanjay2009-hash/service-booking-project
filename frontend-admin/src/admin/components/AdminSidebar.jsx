@@ -31,9 +31,7 @@ const AdminSidebar = () => {
           Dashboard
         </NavLink>
 
-        <NavLink to="/admin/carousel" className={linkClass}>
-          Carousel
-        </NavLink>
+        
 
         <NavLink to="/admin/bookings" className={linkClass}>
           Bookings
